@@ -1,0 +1,59 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global"  controller="ShowProductCostforContactControllerClass">
+    <!-- attributes -->
+    <aura:attribute name="ProdList" type="ServiceContract[]" />
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <div>
+        <lightning:spinner alternativeText="Processing.." title="Processing.." aura:id="spnr" variant="brand" size="large" />
+    </div>
+    
+    <lightning:card iconName="standard:work_capacity_usage" title="Price Details">
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+            <thead>
+                <tr class="slds-line-height_reset">
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="File Name">Product Name</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="File Name">CPCM</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="File Name">ATMFOC</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="File Name">CRC</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration  items="{!v.ProdList}" var="prod">
+                    <tr class="slds-hint-parent">
+                        <td data-label="File Name">
+                            <div class="slds-truncate" title="File Name">{!prod.Product__r.Name}</div>  
+                        </td>
+                        <td data-label="File Name">
+                            <div class="slds-truncate" title="File Name">{!prod.Product__r.Currency_Symbol__c} {!prod.Product__r.CPCM__c}</div>  
+                        </td>
+                        <td data-label="File Name">
+                            <!--<div class="slds-truncate" title="File Name">{!prod.Product__r.ATMFOC__c}%</div>-->
+                            <aura:if  isTrue="{!prod.Product__r.ATMFOC__c != 0}" >
+                            {!prod.Product__r.ATMFOC__c}%
+                            </aura:if>
+                            
+                            <aura:if  isTrue="{!prod.Product__r.ATMFOC__c == 0}" >
+                            Free
+                            </aura:if>
+                        </td>
+                        <td data-label="File Name">
+                            <div class="slds-truncate" title="File Name">{!prod.Product__r.Currency_Symbol__c} {!prod.Product__r.CRC__c}</div>  
+                        </td>
+                        
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+    </lightning:card>
+    
+    
+</aura:component>
